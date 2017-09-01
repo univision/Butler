@@ -19,7 +19,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import java.io.Serializable;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * TODO: JAVA DOC
  *
  */
-public abstract class BaseActionBarActivity extends ActionBarActivity implements
+public abstract class BaseActionBarActivity extends AppCompatActivity implements
         IBundleArgs,
         IFragmentHelper<Fragment>,
         IViewHelper,

@@ -4,9 +4,9 @@ package com.mokalab.butler.util;
 import android.text.TextUtils;
 
 import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -14,6 +14,8 @@ import java.security.NoSuchAlgorithmException;
  * Created by Artur Shamsi on 2014-10-03.
  */
 public class CryptUtils {
+    private static final String TAG = CryptUtils.class.getSimpleName();
+    private static MessageDigest messageDigest;
 
     /**
      * Returns String encrypted with XOR and given char key
@@ -171,7 +173,15 @@ public class CryptUtils {
          * IT DOES HAVE encodeHex() WHICH GIVES THE SAME RESULT.
          * StackOverFlow: http://stackoverflow.com/a/9284092
          */
+        try {
+            if (messageDigest == null) {
+                messageDigest = MessageDigest.getInstance("SHA-1");
+            }
 
-        return new String(Hex.encodeHex(DigestUtils.sha1(textToSign)));
+            return new String(Hex.encodeHex(messageDigest.digest(textToSign.getBytes("UTF-8"))));
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            MrLogger.error(TAG, "Error signing with sha-1 " + e);
+            return null;
+        }
     }
 }
